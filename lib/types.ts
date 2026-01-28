@@ -34,7 +34,7 @@ export interface MarketPrice {
   midpoint: number;
   lastPrice?: number;
   volume?: number;
-  source?: "kalshi" | "manual";
+  source?: "kalshi" | "polymarket" | "manual";
 }
 
 export interface EdgeAnalysis {
@@ -42,6 +42,8 @@ export interface EdgeAnalysis {
   songId: string;
   ourProbability: number;
   marketProbability: number;
+  kalshiProbability: number;
+  polymarketProbability: number;
   edge: number;
   signal: "strong-buy" | "buy" | "neutral" | "avoid" | "strong-avoid";
   confidence: "high" | "medium" | "low";

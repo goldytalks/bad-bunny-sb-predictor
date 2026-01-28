@@ -3,35 +3,39 @@ import songsData from "@/songs.json";
 import { generatePredictions } from "@/lib/model/scoring";
 import { calculateEdge } from "@/lib/utils/probability";
 import { fetchKalshiPrices } from "@/lib/data/kalshi";
+import { fetchPolymarketPrices } from "@/lib/data/polymarket";
 import { MARKET_PRICES } from "@/lib/data/market-prices";
 import { Song } from "@/lib/types";
 
-export const revalidate = 300; // 5 minutes
+export const revalidate = 300;
 
 export async function GET() {
   const songs = songsData.songs as Song[];
   const predictions = generatePredictions(songs);
 
-  let marketPrices = MARKET_PRICES;
-  let marketSource = "manual";
+  let kalshiPrices = MARKET_PRICES;
+  let polyPrices = undefined;
+  const sources: string[] = [];
 
   try {
-    const kalshiPrices = await fetchKalshiPrices();
-    if (kalshiPrices.length > 0) {
-      marketPrices = kalshiPrices;
-      marketSource = "kalshi-live";
-    }
-  } catch (e) {
-    console.error("Kalshi fetch failed, using fallback:", e);
-  }
+    const live = await fetchKalshiPrices();
+    if (live.length > 0) { kalshiPrices = live; sources.push("kalshi-live"); }
+    else { sources.push("kalshi-fallback"); }
+  } catch { sources.push("kalshi-fallback"); }
 
-  const edges = calculateEdge(predictions, marketPrices);
+  try {
+    const live = await fetchPolymarketPrices();
+    if (live.length > 0) { polyPrices = live; sources.push("polymarket-live"); }
+  } catch { /* skip */ }
+
+  const edges = calculateEdge(predictions, kalshiPrices, polyPrices);
 
   return NextResponse.json({
     predictions,
     edges,
-    marketPrices,
-    marketSource,
+    kalshiPrices,
+    polymarketPrices: polyPrices ?? [],
+    sources,
     lastUpdated: new Date().toISOString(),
   });
 }

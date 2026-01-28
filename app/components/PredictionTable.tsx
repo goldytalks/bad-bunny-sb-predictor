@@ -21,7 +21,8 @@ export default function PredictionTable({ edges }: { edges: EdgeAnalysis[] }) {
             <th className="py-3 pr-4">#</th>
             <th className="py-3 pr-4">Song</th>
             <th className="py-3 pr-4 text-right">Our Model</th>
-            <th className="py-3 pr-4 text-right">Market</th>
+            <th className="py-3 pr-4 text-right">Kalshi</th>
+            <th className="py-3 pr-4 text-right">Polymarket</th>
             <th className="py-3 pr-4 text-right">Edge</th>
             <th className="py-3 pr-4 text-center">Signal</th>
           </tr>
@@ -33,7 +34,10 @@ export default function PredictionTable({ edges }: { edges: EdgeAnalysis[] }) {
               <td className="py-3 pr-4 font-medium">{e.song}</td>
               <td className="py-3 pr-4 text-right font-mono">{pct(e.ourProbability)}</td>
               <td className="py-3 pr-4 text-right font-mono text-gray-400">
-                {e.marketProbability > 0 ? pct(e.marketProbability) : "—"}
+                {e.kalshiProbability > 0 ? pct(e.kalshiProbability) : "—"}
+              </td>
+              <td className="py-3 pr-4 text-right font-mono text-gray-400">
+                {e.polymarketProbability > 0 ? pct(e.polymarketProbability) : "—"}
               </td>
               <td className={`py-3 pr-4 text-right font-mono font-bold ${e.edge > 0 ? "text-green-400" : e.edge < -0.02 ? "text-red-400" : "text-gray-400"}`}>
                 {e.marketProbability > 0 ? edgePct(e.edge) : "—"}

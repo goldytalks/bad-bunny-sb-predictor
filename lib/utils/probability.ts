@@ -30,11 +30,24 @@ export function getSignalColor(signal: EdgeAnalysis["signal"]): string {
 
 export function calculateEdge(
   predictions: Prediction[],
-  marketPrices: MarketPrice[]
+  kalshiPrices: MarketPrice[],
+  polymarketPrices?: MarketPrice[]
 ): EdgeAnalysis[] {
   return predictions.map((pred) => {
-    const market = marketPrices.find((m) => m.songId === pred.songId);
-    const marketProb = market?.midpoint ?? 0;
+    const kalshi = kalshiPrices.find((m) => m.songId === pred.songId);
+    const poly = polymarketPrices?.find((m) => m.songId === pred.songId);
+
+    const kalshiProb = kalshi?.midpoint ?? 0;
+    const polyProb = poly?.midpoint ?? 0;
+
+    // Use average of available markets, or whichever is available
+    let marketProb = 0;
+    if (kalshiProb > 0 && polyProb > 0) {
+      marketProb = (kalshiProb + polyProb) / 2;
+    } else {
+      marketProb = kalshiProb || polyProb;
+    }
+
     const edge = pred.probability - marketProb;
 
     return {
@@ -42,6 +55,8 @@ export function calculateEdge(
       songId: pred.songId,
       ourProbability: pred.probability,
       marketProbability: marketProb,
+      kalshiProbability: kalshiProb,
+      polymarketProbability: polyProb,
       edge,
       signal: getEdgeSignal(edge),
       confidence: pred.confidence,
