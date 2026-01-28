@@ -2,15 +2,32 @@ import songsData from "@/songs.json";
 import { Song } from "@/lib/types";
 import { generatePredictions } from "@/lib/model/scoring";
 import { calculateEdge } from "@/lib/utils/probability";
+import { fetchKalshiPrices } from "@/lib/data/kalshi";
 import { MARKET_PRICES } from "@/lib/data/market-prices";
 import PredictionTable from "./components/PredictionTable";
 import EdgeCard from "./components/EdgeCard";
 import EdgeChart from "./components/EdgeChart";
 
-export default function Home() {
+export const revalidate = 300; // revalidate every 5 minutes
+
+export default async function Home() {
   const songs = songsData.songs as Song[];
   const predictions = generatePredictions(songs);
-  const edges = calculateEdge(predictions, MARKET_PRICES);
+
+  let marketPrices = MARKET_PRICES;
+  let marketSource = "manual (fallback)";
+
+  try {
+    const kalshiPrices = await fetchKalshiPrices();
+    if (kalshiPrices.length > 0) {
+      marketPrices = kalshiPrices;
+      marketSource = "Kalshi (live)";
+    }
+  } catch {
+    // fallback to manual prices
+  }
+
+  const edges = calculateEdge(predictions, marketPrices);
 
   const topPrediction = edges[0];
   const buys = edges.filter((e) => e.edge > 0.02 && e.marketProbability > 0).sort((a, b) => b.edge - a.edge);
@@ -32,6 +49,7 @@ export default function Home() {
         </h1>
         <p className="text-gray-500 text-sm">
           Model vs. Market Edge Detection &middot; Super Bowl {daysLeft > 0 ? `in ${daysLeft} days` : "today"} &middot; Feb 8, 2026
+          &middot; Prices: {marketSource}
         </p>
       </header>
 

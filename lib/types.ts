@@ -32,6 +32,9 @@ export interface MarketPrice {
   yesBid: number;
   yesAsk: number;
   midpoint: number;
+  lastPrice?: number;
+  volume?: number;
+  source?: "kalshi" | "manual";
 }
 
 export interface EdgeAnalysis {
