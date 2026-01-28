@@ -134,7 +134,7 @@ export default async function Home() {
       </section>
 
       <footer className="text-xs text-gray-600 mt-8">
-        <p>Model: Weighted scoring with mega-hit penalty, solo bonus, trailer signal. Not financial advice.</p>
+        <p>Model: Bayesian log-odds with historically-derived likelihood ratios from 20 SB openers (2006-2025). Not financial advice.</p>
       </footer>
     </main>
   );

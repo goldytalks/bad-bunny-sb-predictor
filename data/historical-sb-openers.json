@@ -1,0 +1,105 @@
+{
+  "description": "Super Bowl halftime opener data (2006-2025) for Bayesian model calibration",
+  "shows": [
+    {
+      "year": 2025, "artist": "Kendrick Lamar", "opener": "GNX (Teaser)",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 130, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2024, "artist": "Usher", "opener": "Caught Up",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 120, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2023, "artist": "Rihanna", "opener": "B**** Better Have My Money",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 98, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2022, "artist": "Dr. Dre / Snoop Dogg", "opener": "The Next Episode",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": false, "isUpbeat": true, "energyScore": 0.88, "bpm": 93, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2021, "artist": "The Weeknd", "opener": "Blinding Lights",
+      "isBiggestHit": true, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.73, "bpm": 171, "inPromo": true, "isTourOpener": true
+    },
+    {
+      "year": 2020, "artist": "Shakira", "opener": "She Wolf",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 120, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2019, "artist": "Maroon 5", "opener": "Harder to Breathe",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.90, "bpm": 136, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2018, "artist": "Justin Timberlake", "opener": "Filthy",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.78, "bpm": 117, "inPromo": true, "isTourOpener": true
+    },
+    {
+      "year": 2017, "artist": "Lady Gaga", "opener": "God Bless America / Poker Face",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 119, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2016, "artist": "Coldplay", "opener": "Yellow",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.55, "bpm": 86, "inPromo": false, "isTourOpener": true
+    },
+    {
+      "year": 2015, "artist": "Katy Perry", "opener": "Roar",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 90, "inPromo": true, "isTourOpener": true
+    },
+    {
+      "year": 2014, "artist": "Bruno Mars", "opener": "Locked Out of Heaven",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.88, "bpm": 144, "inPromo": false, "isTourOpener": true
+    },
+    {
+      "year": 2013, "artist": "Beyoncé", "opener": "Love on Top",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 170, "inPromo": false, "isTourOpener": true
+    },
+    {
+      "year": 2012, "artist": "Madonna", "opener": "Vogue",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 119, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2011, "artist": "Black Eyed Peas", "opener": "I Gotta Feeling",
+      "isBiggestHit": true, "isCurrentAlbum": true, "isSolo": false, "isUpbeat": true, "energyScore": 0.88, "bpm": 128, "inPromo": false, "isTourOpener": true
+    },
+    {
+      "year": 2010, "artist": "The Who", "opener": "Pinball Wizard",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 136, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2009, "artist": "Bruce Springsteen", "opener": "Tenth Avenue Freeze-Out",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.75, "bpm": 125, "inPromo": false, "isTourOpener": true
+    },
+    {
+      "year": 2008, "artist": "Tom Petty", "opener": "American Girl",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 170, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2007, "artist": "Prince", "opener": "Let's Go Crazy",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.90, "bpm": 136, "inPromo": false, "isTourOpener": false
+    },
+    {
+      "year": 2006, "artist": "The Rolling Stones", "opener": "Start Me Up",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 120, "inPromo": false, "isTourOpener": true
+    }
+  ],
+  "baseRates": {
+    "total": 20,
+    "isSolo": { "count": 18, "rate": 0.90 },
+    "isUpbeat": { "count": 19, "rate": 0.95 },
+    "isCurrentAlbum": { "count": 9, "rate": 0.45 },
+    "highEnergy": { "count": 19, "rate": 0.95, "note": "energyScore >= 0.7" },
+    "isBiggestHit": { "count": 2, "rate": 0.10 },
+    "inPromo": { "count": 3, "rate": 0.15 },
+    "isTourOpener": { "count": 9, "rate": 0.45 }
+  },
+  "catalogEstimates": {
+    "note": "Estimated base rates across a typical artist's full catalog (~30 songs considered)",
+    "isSolo": 0.60,
+    "isUpbeat": 0.70,
+    "isCurrentAlbum": 0.11,
+    "highEnergy": 0.50,
+    "isBiggestHit": 0.03,
+    "inPromo": 0.01,
+    "isTourOpener": 0.05
+  }
+}

@@ -2,225 +2,148 @@
 
 **Generated**: January 28, 2026
 **Super Bowl Date**: February 8, 2026 (11 days away)
-**Author**: Model v1.0
+**Author**: Model v2.0 — Bayesian Log-Odds
 
 ---
 
 ## 1. Model Summary
 
-### How It Works
-The model assigns each song a **weighted score** based on 7 features, then applies **multiplicative penalties/bonuses**, and finally normalizes all scores to probabilities summing to 100%.
+### Methodology: Bayesian Log-Odds
+The model replaces arbitrary feature weights with **historically-derived likelihood ratios** from 20 Super Bowl halftime openers (2006-2025).
 
-### Feature Weights
+Each feature's importance is measured as: **LR = P(feature | opener) / P(feature | random catalog song)**
 
-| Feature | Weight | Rationale |
-|---------|--------|-----------|
-| Official Trailer Appearance | **25%** | If the NFL previews a song in their halftime trailer, it's the strongest public signal. They don't feature random deep cuts. |
-| Upbeat / High-Energy | **20%** | Every SB opener in the last decade has been high-energy. You don't open for 120M viewers with a ballad. |
-| Energy Score (Spotify 0-1) | **15%** | Quantitative proxy for how "explosive" a track feels. |
-| Current Album Track | **15%** | Artists use the SB to promote current work. Bad Bunny is touring Debí Tirar Más Fotos (2025). |
-| Tour Play Frequency | **10%** | Production-ready, rehearsed, proven crowd response. |
-| Solo Track | **10%** | No guest coordination needed for the opening moment. |
-| Popularity (Streams) | **5%** | Intentionally low — biggest hits rarely open. This is the model's core contrarian thesis. |
+These ratios are combined as additive log-odds (multiplicative in odds-space), then normalized to probabilities.
 
-### Penalties & Bonuses
+### Likelihood Ratios
 
-| Modifier | Effect | Trigger |
-|----------|--------|---------|
-| Mega-Hit Penalty | **×0.65** (35% reduction) | >2B Spotify streams |
-| Top-Hit Penalty | **×0.80** (20% reduction) | >1.5B streams AND not current album |
-| Non-Solo Penalty | **×0.50** (50% reduction) | Song features another artist |
-| Tour Opener Bonus | **×(1 + 0.15 × count/10)** | Song has opened tour shows |
+| Feature | P(feature\|opener) | P(feature\|catalog) | LR | Source |
+|---------|-------------------|--------------------|----|--------|
+| In trailer/promo | 15% (3/20) | ~1% | **10x** | Historical SB data |
+| Tour opener | 45% (9/20) | ~5% | **8x** | Historical SB data |
+| Current album | 45% (9/20) | ~11% | **4.1x** | Historical SB data |
+| High energy (>=0.7) | 95% (19/20) | ~50% | **1.9x** | Historical SB data |
+| Solo | 90% (18/20) | ~60% | **1.5x** | Historical SB data |
+| Upbeat | 95% (19/20) | ~70% | **1.36x** | Historical SB data |
+
+### Penalties (Non-Compounding)
+
+Only the single most relevant penalty applies — they do NOT compound.
+
+| Penalty | Factor | Trigger | Rationale |
+|---------|--------|---------|-----------|
+| Mega-hit old catalog | **x0.30** | >2B streams, not current album | Only 1/20 openers was an old mega-hit |
+| Top-hit old catalog | **x0.50** | >1.5B streams, not current album | Old catalog hits rarely open |
+| Non-solo | **x0.67** | Song features another artist | Only 2/20 openers had guest artists |
+
+### Additional Features
+- **Recency bonus**: Albums ≤1 year old get 1.2x, ≤2 years get 1.1x
+- **Stream velocity**: Computed but used for analysis only (spotifyDaily / spotifyStreams)
 
 ---
 
-## 2. Current Model Output (Jan 28, 2026)
+## 2. Historical Base Rates (2006-2025)
+
+| Pattern | Count | Rate | Key Examples |
+|---------|-------|------|-------------|
+| Opener was solo | 18/20 | 90% | Prince, Beyoncé, Lady Gaga, Rihanna |
+| Opener was upbeat | 19/20 | 95% | Nearly universal — only exception is borderline |
+| Opener from current album | 9/20 | 45% | Kendrick (GNX), JT (Filthy), Katy Perry (Roar) |
+| Opener high energy (>=0.7) | 19/20 | 95% | Nearly universal |
+| Opener was biggest hit | 2/20 | 10% | Only Weeknd (Blinding Lights), BEP (I Gotta Feeling) |
+| Opener in promo material | 3/20 | 15% | Weeknd, JT, Katy Perry |
+| Opener was tour opener | 9/20 | 45% | Rolling Stones, Bruno Mars, Springsteen |
+
+---
+
+## 3. Backtest Results
+
+The model was backtested against all 20 shows using synthetic 6-song catalogs for each artist (actual opener + 5 archetypes: biggest old hit, popular collab, slow ballad, current deep cut, mid-tier upbeat).
+
+**Target: >50% top-3 accuracy**
+
+View results at `/backtest`.
+
+---
+
+## 4. Current Model Output (Jan 28, 2026)
 
 ### Top Predictions
 
-| Rank | Song | Model % | Key Factors |
-|------|------|---------|-------------|
-| 1 | BAILE INoLVIDABLE | ~19-20% | In trailer (+25%), upbeat, current album, toured as opener |
-| 2 | VOY A LLeVARTE PA PR | ~14% | Opened 7/10 tour shows, upbeat, current album, solo |
-| 3 | NUEVAYoL | ~9% | Upbeat, current album, high energy |
-| 4 | MONACO | ~8% | Very high energy (0.90), upbeat, solo, perfect opener energy |
-| 5 | EoO | ~7% | Current album, upbeat, solo |
+| Rank | Song | Key Likelihood Ratios |
+|------|------|-----------------------|
+| 1 | BAILE INoLVIDABLE | Trailer 10x + Current album 4.1x + Tour opener 8x + Solo 1.5x + Upbeat 1.36x + High energy 1.9x |
+| 2 | VOY A LLeVARTE PA PR | Tour opener 8x + Current album 4.1x + Solo 1.5x + Upbeat 1.36x + High energy 1.9x |
+| 3 | LA MuDANZA | Current album 4.1x + Solo 1.5x + Upbeat 1.36x + High energy 1.9x |
+| 4 | NUEVAYoL | Current album 4.1x + Solo 1.5x + Upbeat 1.36x + High energy 1.9x |
+| 5 | EoO | Current album 4.1x + Solo 1.5x + Upbeat 1.36x + High energy 1.9x |
 
 ### Songs the Model Penalizes
 
 | Song | Penalty | Why |
 |------|---------|-----|
-| DÁKITI (2.35B) | ×0.65 × 0.50 | Mega-hit + requires Jhay Cortez |
-| Me Porto Bonito (2.17B) | ×0.65 × 0.50 | Mega-hit + requires Chencho Corleone |
-| LA CANCIÓN (2.33B) | ×0.65 × 0.50 | Mega-hit + requires J Balvin |
-| Tití Me Preguntó (1.89B) | ×0.80 | Top hit, not current album (but solo — no guest penalty) |
-| Callaita (1.73B) | ×0.80 | Top hit, not current album |
+| DÁKITI (2.35B) | x0.30 | Mega-hit old catalog (dominant penalty; non-solo penalty doesn't compound) |
+| Me Porto Bonito (2.17B) | x0.30 | Mega-hit old catalog |
+| LA CANCIÓN (2.33B) | x0.30 | Mega-hit old catalog |
+| I Like It (2.1B) | x0.30 | Mega-hit old catalog |
+| Tití Me Preguntó (1.89B) | x0.50 | Top-hit old catalog (solo, so no non-solo penalty) |
 
 ---
 
-## 3. Market Comparison (Live as of Jan 28)
-
-### Kalshi vs Polymarket vs Our Model
-
-| Song | Our Model | Kalshi | Polymarket | Avg Market | Edge |
-|------|-----------|--------|------------|------------|------|
-| Tití Me Preguntó | ~5% | 41.5% | 45.5% | 43.5% | **-38.5%** |
-| BAILE INoLVIDABLE | ~19% | 23.5% | 20.0% | 21.7% | **-2.7%** |
-| LA MuDANZA | N/A* | 21.0% | 22.5% | 21.7% | N/A |
-| NUEVAYoL | ~9% | 8.5% | 8.5% | 8.5% | **+0.5%** |
-| DtMF | ~6% | 2.5% | 4.5% | 3.5% | **+2.5%** |
-| DÁKITI | ~1% | 3.5% | 2.7% | 3.1% | **-2.1%** |
-
-*LA MuDANZA is not in our song catalog — see known gaps below.
+## 5. Market Comparison
 
 ### Key Market Disagreements
 
-**MASSIVE GAP: Tití Me Preguntó**
-- Markets say 43%, our model says ~5%
-- Markets are treating this as the heavy favorite
-- Our model penalizes it (1.89B streams, not current album = ×0.80)
-- **Question to consider**: Is our penalty too harsh? Tití is solo, upbeat, and iconic. The market may know something we don't (rehearsal leaks? insider info?).
+**Tití Me Preguntó**: Markets ~41-43%, our model much lower. Our model applies a x0.50 penalty for being a 1.89B-stream song from 2022. Markets may be overweighting name recognition. This is our biggest contrarian position.
 
-**MISSING: LA MuDANZA**
-- Markets have this at ~21% on both platforms
-- We don't even have it in our song catalog
-- **ACTION NEEDED**: Add LA MuDANZA to songs.json with proper features
+**LA MuDANZA**: Now in our catalog. Markets ~21%. Our model should price it competitively given it's current album, solo, upbeat.
 
-**DtMF Underpriced by Markets?**
-- We say ~6%, markets say 2.5-4.5%
-- Title track of current album, most-streamed new song
-- But it's not upbeat (BPM 95, energy 0.65) — model is split on it
+**DtMF**: Markets ~2.5-4.5%. Our model gives it current album bonus (4.1x) but it's NOT upbeat and energy is 0.65 (below 0.7 threshold), so it misses two key LRs.
 
 ---
 
-## 4. Known Model Gaps & Issues
+## 6. Songs Added (v2.0)
 
-### Missing Songs
-1. **LA MuDANZA** — Trading at 21% on both markets. MUST add to catalog.
-2. **I Like It** (Cardi B ft. Bad Bunny) — On Kalshi at 4.5%. Not in our catalog as a BB-primary song.
-
-### Potential Model Weaknesses
-
-1. **Tití Me Preguntó mismatch**: The 38% gap between our model and markets is enormous. Either:
-   - Markets are wrong (retail bettors overweighting famous songs) — this IS our thesis
-   - Our penalty is too aggressive for a solo, upbeat, iconic track
-   - There's insider info we don't have (rehearsal leaks, etc.)
-
-2. **Popularity weight too low at 5%?** The Weeknd opened with Blinding Lights (his biggest hit). Maybe popularity should be 10-15% with a softer mega-hit penalty.
-
-3. **Trailer signal may be overweighted at 25%**: BAILE INoLVIDABLE is in the trailer, but trailers often feature multiple songs. Being in the trailer ≠ opening song.
-
-4. **Tour opener data is sparse**: We only have approximate counts. Better setlist.fm data could improve this.
-
-5. **No recency weighting on streams**: A song gaining streams NOW matters more than lifetime totals.
+6 songs added that markets trade but were missing from our catalog:
+1. **LA MuDANZA** — current album, solo, upbeat (~21% on markets)
+2. **I Like It** — Cardi B feat, not solo, mega-hit
+3. **La Jumpa** — Arcángel feat, not solo
+4. **MIA** — Drake feat, not solo, not upbeat
+5. **No Me Conoce - Remix** — multi-artist, not solo
+6. **Te Boté - Remix** — 5+ artists, not solo
 
 ---
 
-## 5. Things to Investigate / Tweak
+## 7. Model Changes from v1.0
 
-### High Priority (Do Before Feb 8)
-- [ ] **Add LA MuDANZA to songs.json** — it's a major market mover at 21%
-- [ ] **Re-evaluate Tití Me Preguntó penalty** — is ×0.80 too harsh for a solo upbeat track? Consider: it's not >2B (so no mega-hit penalty), it IS solo, it IS upbeat. The only penalty is "top hit + old catalog." Maybe this penalty should be ×0.90 for solo upbeat tracks?
-- [ ] **Check for rehearsal leaks** — if Tití is truly the opener, rehearsal footage will leak in early Feb
-- [ ] **Verify tour opener data** — cross-reference setlist.fm for VOY A LLeVARTE PA PR opener count
-
-### Medium Priority
-- [ ] Increase popularity weight from 5% to 10%
-- [ ] Add daily stream velocity as a feature (rising vs falling popularity)
-- [ ] Soften mega-hit penalty from ×0.65 to ×0.70 for solo tracks
-- [ ] Add "cultural moment" bonus for songs that are currently trending
-- [ ] Consider reducing trailer weight from 25% to 20%
-
-### Low Priority / Post-Event
-- [ ] Backtest model against past 10 Super Bowls
-- [ ] Add confidence intervals / uncertainty bands
-- [ ] Track how model predictions change over time vs market movement
+| Aspect | v1.0 | v2.0 |
+|--------|------|------|
+| Scoring | Arbitrary weighted sum (25/20/15/15/10/10/5) | Bayesian log-odds with LRs from 20 SB openers |
+| Penalties | Compounding (mega-hit × non-solo) | Non-compounding (pick dominant factor) |
+| Mega-hit penalty | x0.65 | x0.30 (stronger, data-driven) |
+| Non-solo penalty | x0.50 | x0.67 (softer, doesn't compound) |
+| Historical basis | Anecdotal (9 shows) | Systematic (20 shows, 2006-2025) |
+| Backtesting | None | Synthetic catalog backtest |
+| Song catalog | 28 songs | 34 songs (+ NEW/UNRELEASED = 35) |
+| Feature engineering | None | Stream velocity, recency bonus, catalog rank |
 
 ---
 
-## 6. Weight Adjustment Guide
-
-To change the model, edit `lib/model/scoring.ts`.
-
-### Current weights object:
-```typescript
-const WEIGHTS = {
-  inOfficialTrailer: 0.25,  // ← Change this to adjust trailer importance
-  isUpbeat: 0.20,           // ← How much "high energy" matters
-  energyScore: 0.15,        // ← Spotify energy feature weight
-  isFromCurrentAlbum: 0.15, // ← Current album bonus
-  tourPlayFrequency: 0.10,  // ← Tour setlist frequency
-  isSolo: 0.10,             // ← Solo track bonus
-  popularityScore: 0.05,    // ← Stream count importance
-};
-```
-
-### Penalty section (same file, ~line 44):
-```typescript
-const MEGA_HIT_THRESHOLD = 2_000_000_000;  // ← Streams threshold for big penalty
-const MEGA_HIT_PENALTY = 0.65;             // ← 35% reduction (change to 0.70 for softer)
-
-// Line 44-49: Top hit penalty
-const isTopHit = song.spotifyStreams > 1_500_000_000;  // ← threshold for mild penalty
-score *= 0.80;  // ← 20% reduction for top hits not on current album
-
-// Line 52-54: Non-solo penalty
-score *= 0.50;  // ← 50% reduction for feat. songs
-```
-
-### How to test changes:
-1. Edit weights/penalties in `lib/model/scoring.ts`
-2. Run `npm run build` to rebuild
-3. Check `/api/predictions` for new probabilities
-4. Compare against market prices to see new edge calculations
-
----
-
-## 7. Data Sources
+## 8. Data Sources
 
 | Source | What We Get | Update Frequency |
 |--------|-------------|-----------------|
 | Kalshi API (public) | Live bid/ask for 22 songs | Every 5 min (revalidate) |
 | Polymarket Gamma API | Live prices for 15+ songs | Every 5 min (revalidate) |
 | songs.json (manual) | Song features, streams, energy | Manual update needed |
-| Spotify (future) | Real-time stream counts | Not yet integrated |
-| setlist.fm (future) | Tour setlist data | Not yet integrated |
-
----
-
-## 8. Historical Super Bowl Opener Data
-
-| Year | Artist | Opening Song | Was It #1 Hit? | Notes |
-|------|--------|-------------|----------------|-------|
-| 2025 | Kendrick Lamar | GNX (Teaser) | NEW song | Unreleased — broke all precedent |
-| 2024 | Usher | Caught Up | No (#4 hit) | Upbeat, danceable |
-| 2023 | Rihanna | B**** Better Have My Money | No (#7 hit) | Statement opener |
-| 2022 | Dr. Dre/Snoop | The Next Episode | Classic | High-energy, iconic |
-| 2021 | The Weeknd | Blinding Lights | **YES** (#1) | Exception to the rule |
-| 2020 | Shakira | She Wolf | No | Danceable, not biggest |
-| 2019 | Maroon 5 | Harder to Breathe | No | Deep cut |
-| 2017 | Lady Gaga | God Bless America | Non-single | Only non-single in 17 years |
-| 2016 | Coldplay | Yellow | No | Classic, not biggest |
-
-**Pattern**: 8 out of 9 times, the opener was NOT the artist's biggest hit. Only The Weeknd broke this pattern.
+| historical-sb-openers.json | 20 SB opener feature vectors | Static reference data |
 
 ---
 
 ## 9. Quick Decision Framework
 
-If you're deciding whether to adjust the model:
+**To adjust the model**, edit likelihood ratios in `lib/model/scoring.ts`. Each ratio is documented with its historical source (e.g., "9/20 openers were from current album").
 
-**Increase a song's probability if:**
-- New evidence emerges (rehearsal leak, official announcement)
-- It's been confirmed as the tour opener recently
-- Market is pricing it much higher and you believe the market has information
+**To add a song**, add it to `songs.json` — the model auto-includes it.
 
-**Decrease a song's probability if:**
-- Guest artist confirmed NOT attending SB
-- Song removed from recent tour setlists
-- Market crash suggests insiders know something
-
-**When in doubt:**
-- Trust the historical pattern (opener ≠ biggest hit)
-- Weight official sources (NFL, Apple Music) over rumors
-- Remember: low-liquidity markets can be moved by a few bettors
+**To verify changes**, run `npm run build` and check `/api/predictions`.

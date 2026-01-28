@@ -13,4 +13,8 @@ export const MARKET_PRICES: MarketPrice[] = [
   { song: "Me Porto Bonito", songId: "me-porto-bonito", yesBid: 0.01, yesAsk: 0.02, midpoint: 0.015, source: "manual" },
   { song: "Callaita", songId: "callaita", yesBid: 0.00, yesAsk: 0.02, midpoint: 0.01, source: "manual" },
   { song: "Efecto", songId: "efecto", yesBid: 0.00, yesAsk: 0.01, midpoint: 0.005, source: "manual" },
+  { song: "La Jumpa", songId: "la-jumpa", yesBid: 0.00, yesAsk: 0.01, midpoint: 0.005, source: "manual" },
+  { song: "MIA", songId: "mia", yesBid: 0.00, yesAsk: 0.01, midpoint: 0.005, source: "manual" },
+  { song: "No Me Conoce - Remix", songId: "no-me-conoce", yesBid: 0.00, yesAsk: 0.01, midpoint: 0.005, source: "manual" },
+  { song: "Te Boté - Remix", songId: "te-bote", yesBid: 0.00, yesAsk: 0.01, midpoint: 0.005, source: "manual" },
 ];
