@@ -5,39 +5,52 @@ import { EdgeAnalysis } from "@/lib/types";
 const LIKELIHOOD_RATIOS = [
   {
     name: "Official Trailer / Promo",
-    lr: "10x",
+    rawLr: "10x",
+    dampened: "3.2x",
     historical: "3/20 openers were in promo material vs ~1% base rate",
-    detail: "If the NFL previews a song in their halftime trailer, it's an overwhelming signal. The likelihood ratio of 10x means a trailer appearance increases a song's odds by an order of magnitude.",
+    detail: "If the NFL previews a song in their halftime trailer, it's an overwhelming signal. Dampened from 10x to 3.2x (sqrt) to correct for naive Bayes overconfidence.",
   },
   {
     name: "Tour Opener",
-    lr: "8x",
+    rawLr: "8x",
+    dampened: "2.8x",
     historical: "9/20 openers were also tour openers vs ~5% base rate",
-    detail: "Songs that open stadium tours are rehearsed, production-ready, and proven crowd-starters. Being a tour opener is the second-strongest signal.",
+    detail: "Songs that open stadium tours are rehearsed, production-ready, and proven crowd-starters. Dampened from 8x to 2.8x.",
   },
   {
     name: "Current Album Track",
-    lr: "4.1x",
+    rawLr: "4.1x",
+    dampened: "2.0x",
     historical: "9/20 openers from current album vs ~11% of catalog",
-    detail: "Artists use the Super Bowl to promote current work. Nearly half of all SB openers came from the artist's most recent album.",
+    detail: "Artists use the Super Bowl to promote current work. Nearly half of all SB openers came from the artist's most recent album. Dampened from 4.1x to 2.0x.",
+  },
+  {
+    name: "High Popularity (>800M streams)",
+    rawLr: "3.0x",
+    dampened: "1.7x",
+    historical: "~90% of openers are top-quartile popularity vs ~25% base rate",
+    detail: "SB openers are well-known tracks. This gives recognizable songs like Tití Me Preguntó a boost. Dampened from 3.0x to 1.7x.",
   },
   {
     name: "High Energy (>=0.7)",
-    lr: "1.9x",
+    rawLr: "1.9x",
+    dampened: "1.4x",
     historical: "19/20 openers had energy >= 0.7",
     detail: "Spotify's audio energy metric. Nearly every SB opener scores above 0.7 — you need an explosive start for 120M+ viewers.",
   },
   {
     name: "Solo Track (No Guest)",
-    lr: "1.5x",
+    rawLr: "1.5x",
+    dampened: "1.2x",
     historical: "18/20 openers were solo performances",
     detail: "Opening the show with a guest is logistically complex. 90% of SB halftime openers are performed solo.",
   },
   {
     name: "Upbeat",
-    lr: "1.36x",
+    rawLr: "1.36x",
+    dampened: "1.2x",
     historical: "19/20 openers were upbeat",
-    detail: "Almost every SB opener is upbeat and danceable. Slow ballads never open — the performer needs to grab the audience immediately.",
+    detail: "Almost every SB opener is upbeat and danceable. Slow ballads never open.",
   },
 ];
 
@@ -46,29 +59,31 @@ const PENALTY_INFO = [
     name: "Mega-Hit Penalty (>2B, old catalog)",
     factor: "x0.30",
     historical: "Only 1/20 openers was an old mega-hit",
-    detail: "Songs with over 2 billion streams that aren't from the current album get a 70% reduction. Historical pattern: mega-hits from previous eras are saved for the emotional climax, not the opener.",
+    detail: "Songs with over 2 billion streams that aren't from the current album get a 70% reduction. Mega-hits from previous eras are saved for the emotional climax.",
   },
   {
     name: "Top-Hit Penalty (>1.5B, old catalog)",
-    factor: "x0.50",
-    historical: "Old catalog hits rarely open",
-    detail: "Songs over 1.5B streams from older albums get a 50% reduction. Well-known enough for the setlist, but positioned mid-show rather than as the opener.",
+    factor: "x0.50 / x0.75",
+    historical: "Old catalog hits rarely open, but solo upbeat ones are viable",
+    detail: "Songs over 1.5B streams from older albums get a 50% reduction. EXCEPTION: solo upbeat tracks get only a 25% reduction (x0.75) because they remain viable openers (cf. Weeknd's Blinding Lights).",
   },
   {
     name: "Non-Solo Penalty",
     factor: "x0.67",
     historical: "Only 2/20 openers had guest artists",
-    detail: "Songs featuring another artist get a 33% reduction. This does NOT compound with mega-hit or top-hit penalties — only the single most relevant penalty applies.",
+    detail: "Songs featuring another artist get a 33% reduction. Does NOT compound with mega-hit or top-hit penalties.",
   },
 ];
 
-const MODEL_PHILOSOPHY = `This model replaces arbitrary weights with historically-derived likelihood ratios from 20 Super Bowl halftime openers (2006-2025).
+const MODEL_PHILOSOPHY = `This model uses historically-derived likelihood ratios from 20 Super Bowl halftime openers (2006-2025), with two key calibration steps:
 
-Each feature's importance is measured by how much more likely it is among actual openers compared to a random song in an artist's catalog. For example, being a tour opener appears in 45% of SB openers but only ~5% of catalog songs — a likelihood ratio of 8x.
+1. SQRT DAMPENING: Raw likelihood ratios assume feature independence (naive Bayes), but features are correlated (current album tracks are more likely to be tour openers, etc.). We apply sqrt() to each ratio, a standard correction for overconfident classifiers.
 
-These ratios are combined as Bayesian log-odds: we start with uniform odds and multiply by each applicable ratio. This approach is transparent, auditable, and grounded in data rather than subjective judgment.
+2. POWER COMPRESSION: After computing raw odds, we apply score^0.55 compression before normalizing to probabilities. This prevents any single song from dominating (e.g., BAILE's trailer+tour+album stack would otherwise reach 45%+).
 
-Key insight: Penalties do NOT compound. A song that is both a mega-hit and a collab receives only the mega-hit penalty (x0.30), not mega-hit × non-solo. This prevents the model from over-penalizing songs that fail on multiple dimensions.`;
+3. NON-COMPOUNDING PENALTIES: Only the single most relevant penalty applies per song. A mega-hit collab gets the mega-hit penalty (x0.30), not mega-hit x non-solo.
+
+KEY MODEL THESIS: Markets overweight name recognition. Our model says Tití Me Preguntó (~2-3% model vs ~41% market) is the biggest disagreement. We believe the market is pricing in "most famous song" rather than "most likely opener" — historically, 18/20 SB openers were NOT the artist's biggest hit.`;
 
 function pct(n: number) {
   return (n * 100).toFixed(1) + "%";
@@ -83,7 +98,7 @@ export default function ModelReasoning({ edges }: { edges: EdgeAnalysis[] }) {
     <div className="space-y-8">
       {/* Model Architecture */}
       <div>
-        <h3 className="text-lg font-bold mb-3">Bayesian Log-Odds Model</h3>
+        <h3 className="text-lg font-bold mb-3">Bayesian Log-Odds Model (v2.1)</h3>
         <p className="text-gray-400 text-sm whitespace-pre-line mb-4">{MODEL_PHILOSOPHY}</p>
       </div>
 
@@ -95,7 +110,10 @@ export default function ModelReasoning({ edges }: { edges: EdgeAnalysis[] }) {
             <div key={lr.name} className="border border-gray-800 rounded-lg p-3">
               <div className="flex justify-between items-center mb-1">
                 <span className="font-medium text-sm">{lr.name}</span>
-                <span className="font-mono text-sm text-pr-blue">{lr.lr}</span>
+                <div className="text-right">
+                  <span className="font-mono text-sm text-gray-500 line-through mr-2">{lr.rawLr}</span>
+                  <span className="font-mono text-sm text-pr-blue">{lr.dampened}</span>
+                </div>
               </div>
               <p className="text-xs text-green-400 mb-1">{lr.historical}</p>
               <p className="text-xs text-gray-500">{lr.detail}</p>
@@ -194,15 +212,13 @@ export default function ModelReasoning({ edges }: { edges: EdgeAnalysis[] }) {
         )}
       </div>
 
-      {/* Backtest Link */}
-      <div>
-        <h3 className="text-lg font-bold mb-3">Backtest Results</h3>
-        <p className="text-gray-400 text-sm mb-2">
-          The model has been backtested against 20 Super Bowl halftime shows (2006-2025) using
-          synthetic catalogs for each artist.
-        </p>
+      {/* Links */}
+      <div className="flex gap-4">
         <a href="/backtest" className="text-pr-blue text-sm hover:underline">
-          View full backtest results &rarr;
+          Backtest Results &rarr;
+        </a>
+        <a href="/research" className="text-pr-blue text-sm hover:underline">
+          Full Research Report &rarr;
         </a>
       </div>
     </div>
