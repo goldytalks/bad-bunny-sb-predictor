@@ -8,6 +8,7 @@ import { MARKET_PRICES } from "@/lib/data/market-prices";
 import PredictionTable from "./components/PredictionTable";
 import EdgeCard from "./components/EdgeCard";
 import EdgeChart from "./components/EdgeChart";
+import ModelReasoning from "./components/ModelReasoning";
 
 export const revalidate = 300;
 
@@ -124,6 +125,12 @@ export default async function Home() {
       <section className="rounded-xl border border-gray-700 bg-gray-900/50 p-6 mb-8">
         <h2 className="text-sm text-gray-400 uppercase tracking-wider mb-4">Full Predictions</h2>
         <PredictionTable edges={edges} />
+      </section>
+
+      {/* Why We Think This */}
+      <section className="rounded-xl border border-gray-700 bg-gray-900/50 p-6 mb-8">
+        <h2 className="text-sm text-gray-400 uppercase tracking-wider mb-6">Why We Think This</h2>
+        <ModelReasoning edges={edges} />
       </section>
 
       <footer className="text-xs text-gray-600 mt-8">
