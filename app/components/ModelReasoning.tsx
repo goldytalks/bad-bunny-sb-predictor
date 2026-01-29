@@ -5,52 +5,52 @@ import { EdgeAnalysis } from "@/lib/types";
 const LIKELIHOOD_RATIOS = [
   {
     name: "Official Trailer / Promo",
-    rawLr: "10x",
-    dampened: "3.2x",
-    historical: "3/20 openers were in promo material vs ~1% base rate",
-    detail: "If the NFL previews a song in their halftime trailer, it's an overwhelming signal. Dampened from 10x to 3.2x (sqrt) to correct for naive Bayes overconfidence.",
-  },
-  {
-    name: "Tour Opener",
-    rawLr: "8x",
-    dampened: "2.8x",
-    historical: "9/20 openers were also tour openers vs ~5% base rate",
-    detail: "Songs that open stadium tours are rehearsed, production-ready, and proven crowd-starters. Dampened from 8x to 2.8x.",
-  },
-  {
-    name: "Current Album Track",
-    rawLr: "4.1x",
-    dampened: "2.0x",
-    historical: "9/20 openers from current album vs ~11% of catalog",
-    detail: "Artists use the Super Bowl to promote current work. Nearly half of all SB openers came from the artist's most recent album. Dampened from 4.1x to 2.0x.",
+    rawLr: "6.0x",
+    dampened: "2.4x",
+    historical: "0/20 verified in historical data — expert estimate for Bad Bunny",
+    detail: "No historical base rate exists (we couldn't verify trailer appearances across 20 shows). But BAILE INoLVIDABLE appearing in the official NFL trailer is a strong signal. Expert-estimated LR.",
   },
   {
     name: "High Popularity (>800M streams)",
-    rawLr: "3.0x",
-    dampened: "1.7x",
-    historical: "~90% of openers are top-quartile popularity vs ~25% base rate",
-    detail: "SB openers are well-known tracks. This gives recognizable songs like Tití Me Preguntó a boost. Dampened from 3.0x to 1.7x.",
+    rawLr: "3.6x",
+    dampened: "1.9x",
+    historical: "~18/20 openers are well-known tracks vs ~25% of catalog",
+    detail: "SB openers are almost always recognizable songs. This gives popular tracks like Tití Me Preguntó a meaningful boost.",
+  },
+  {
+    name: "Tour Opener",
+    rawLr: "4.0x",
+    dampened: "2.0x",
+    historical: "0/20 verified in historical data — expert estimate for Bad Bunny",
+    detail: "Tour opener data wasn't reliably available across 20 historical shows. But for Bad Bunny specifically, songs that open his tour are rehearsed and production-ready.",
+  },
+  {
+    name: "Current Album Track",
+    rawLr: "1.8x",
+    dampened: "1.3x",
+    historical: "4/20 openers from current album vs ~11% of catalog",
+    detail: "Only 4 of 20 verified openers were from the current album (Kendrick, JT, Katy Perry, Bruno Mars). Lower than previously estimated.",
   },
   {
     name: "High Energy (>=0.7)",
-    rawLr: "1.9x",
-    dampened: "1.4x",
-    historical: "19/20 openers had energy >= 0.7",
-    detail: "Spotify's audio energy metric. Nearly every SB opener scores above 0.7 — you need an explosive start for 120M+ viewers.",
+    rawLr: "1.7x",
+    dampened: "1.3x",
+    historical: "17/20 openers had energy >= 0.7",
+    detail: "Most SB openers are high energy. Exceptions: Yellow (Coldplay, 0.55), Starboy (Weeknd, 0.59).",
   },
   {
     name: "Solo Track (No Guest)",
     rawLr: "1.5x",
     dampened: "1.2x",
     historical: "18/20 openers were solo performances",
-    detail: "Opening the show with a guest is logistically complex. 90% of SB halftime openers are performed solo.",
+    detail: "Only exceptions: The Next Episode (2022, Dre+Snoop) and I Gotta Feeling (2011, BEP group act).",
   },
   {
     name: "Upbeat",
     rawLr: "1.36x",
     dampened: "1.2x",
     historical: "19/20 openers were upbeat",
-    detail: "Almost every SB opener is upbeat and danceable. Slow ballads never open.",
+    detail: "Only exception: Yellow (Coldplay 2016, borderline).",
   },
 ];
 
@@ -58,14 +58,14 @@ const PENALTY_INFO = [
   {
     name: "Mega-Hit Penalty (>2B, old catalog)",
     factor: "x0.30",
-    historical: "Only 1/20 openers was an old mega-hit",
-    detail: "Songs with over 2 billion streams that aren't from the current album get a 70% reduction. Mega-hits from previous eras are saved for the emotional climax.",
+    historical: "1/20 openers was artist's biggest hit (BEP 2011, a group act)",
+    detail: "Songs with over 2 billion streams that aren't from the current album get a 70% reduction. Only 1 of 20 openers was the biggest hit — and it was a group act, not a solo artist.",
   },
   {
     name: "Top-Hit Penalty (>1.5B, old catalog)",
     factor: "x0.50 / x0.75",
     historical: "Old catalog hits rarely open, but solo upbeat ones are viable",
-    detail: "Songs over 1.5B streams from older albums get a 50% reduction. EXCEPTION: solo upbeat tracks get only a 25% reduction (x0.75) because they remain viable openers (cf. Weeknd's Blinding Lights).",
+    detail: "Songs over 1.5B streams from older albums get a 50% reduction. EXCEPTION: solo upbeat tracks get only a 25% reduction (x0.75). Note: The Weeknd opened with Starboy, NOT Blinding Lights.",
   },
   {
     name: "Non-Solo Penalty",
@@ -83,7 +83,7 @@ const MODEL_PHILOSOPHY = `This model uses historically-derived likelihood ratios
 
 3. NON-COMPOUNDING PENALTIES: Only the single most relevant penalty applies per song. A mega-hit collab gets the mega-hit penalty (x0.30), not mega-hit x non-solo.
 
-KEY MODEL THESIS: Markets overweight name recognition. Our model says Tití Me Preguntó (~2-3% model vs ~41% market) is the biggest disagreement. We believe the market is pricing in "most famous song" rather than "most likely opener" — historically, 18/20 SB openers were NOT the artist's biggest hit.`;
+KEY MODEL THESIS: Markets overweight name recognition. Our model says Tití Me Preguntó is significantly overpriced by markets. We believe markets price "most famous song" rather than "most likely opener." Verified historical data: 19/20 SB openers were NOT the artist's biggest hit (only exception: BEP's I Gotta Feeling, a group act). The Weeknd opened with Starboy, NOT Blinding Lights.`;
 
 function pct(n: number) {
   return (n * 100).toFixed(1) + "%";

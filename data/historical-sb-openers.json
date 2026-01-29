@@ -1,96 +1,156 @@
 {
-  "description": "Super Bowl halftime opener data (2006-2025) for Bayesian model calibration",
+  "description": "Verified Super Bowl halftime opener data (2006-2025). Every opener confirmed via setlist.fm and multiple sources.",
   "shows": [
     {
-      "year": 2025, "artist": "Kendrick Lamar", "opener": "GNX (Teaser)",
-      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 130, "inPromo": false, "isTourOpener": false
+      "year": 2025, "sb": "LIX", "artist": "Kendrick Lamar",
+      "opener": "wacced out murals",
+      "source": "setlist.fm, Vibe",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 130, "inPromo": false, "isTourOpener": false,
+      "note": "First track on GNX (2024). Not a pre-release single — deep cut opener."
     },
     {
-      "year": 2024, "artist": "Usher", "opener": "Caught Up",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 120, "inPromo": false, "isTourOpener": false
+      "year": 2024, "sb": "LVIII", "artist": "Usher",
+      "opener": "Caught Up",
+      "source": "setlist.fm, Wikipedia, DraftKings",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 120, "inPromo": false, "isTourOpener": false,
+      "note": "From Confessions (2004). Not Yeah!, not Burn — uptempo deep cut."
     },
     {
-      "year": 2023, "artist": "Rihanna", "opener": "B**** Better Have My Money",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 98, "inPromo": false, "isTourOpener": false
+      "year": 2023, "sb": "LVII", "artist": "Rihanna",
+      "opener": "Bitch Better Have My Money",
+      "source": "setlist.fm, Today.com",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 98, "inPromo": false, "isTourOpener": false,
+      "note": "Statement opener. Brief vocal riff of What's My Name? as stage intro, but BBHMM was the first full song."
     },
     {
-      "year": 2022, "artist": "Dr. Dre / Snoop Dogg", "opener": "The Next Episode",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": false, "isUpbeat": true, "energyScore": 0.88, "bpm": 93, "inPromo": false, "isTourOpener": false
+      "year": 2022, "sb": "LVI", "artist": "Dr. Dre, Snoop Dogg, Eminem, Mary J. Blige, Kendrick Lamar",
+      "opener": "The Next Episode",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": false, "isUpbeat": true, "energyScore": 0.88, "bpm": 93, "inPromo": false, "isTourOpener": false,
+      "note": "Dr. Dre feat. Snoop Dogg. Multi-artist show — Snoop was there from the start."
     },
     {
-      "year": 2021, "artist": "The Weeknd", "opener": "Blinding Lights",
-      "isBiggestHit": true, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.73, "bpm": 171, "inPromo": true, "isTourOpener": true
+      "year": 2021, "sb": "LV", "artist": "The Weeknd",
+      "opener": "Starboy",
+      "source": "setlist.fm, SI.com",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.59, "bpm": 186, "inPromo": false, "isTourOpener": false,
+      "note": "NOT Blinding Lights (common misconception). Choir sang Call Out My Name as intro, then Weeknd sang Starboy first. Blinding Lights was the CLOSER."
     },
     {
-      "year": 2020, "artist": "Shakira", "opener": "She Wolf",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 120, "inPromo": false, "isTourOpener": false
+      "year": 2020, "sb": "LIV", "artist": "Shakira",
+      "opener": "She Wolf",
+      "source": "setlist.fm, CBS Sports",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 120, "inPromo": false, "isTourOpener": false,
+      "note": "Shakira went first (co-headline with J.Lo). She Wolf with elements of Dare (La La La)."
     },
     {
-      "year": 2019, "artist": "Maroon 5", "opener": "Harder to Breathe",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.90, "bpm": 136, "inPromo": false, "isTourOpener": false
+      "year": 2019, "sb": "LIII", "artist": "Maroon 5",
+      "opener": "Harder to Breathe",
+      "source": "setlist.fm, Sports Illustrated",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.90, "bpm": 136, "inPromo": false, "isTourOpener": false,
+      "note": "Deep cut from Songs About Jane (2002). Not Sugar, not Moves Like Jagger."
     },
     {
-      "year": 2018, "artist": "Justin Timberlake", "opener": "Filthy",
-      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.78, "bpm": 117, "inPromo": true, "isTourOpener": true
+      "year": 2018, "sb": "LII", "artist": "Justin Timberlake",
+      "opener": "Filthy",
+      "source": "setlist.fm, Sports Illustrated",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.78, "bpm": 117, "inPromo": false, "isTourOpener": false,
+      "note": "Lead single from Man of the Woods (2018). Live debut at the Super Bowl."
     },
     {
-      "year": 2017, "artist": "Lady Gaga", "opener": "God Bless America / Poker Face",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 119, "inPromo": false, "isTourOpener": false
+      "year": 2017, "sb": "LI", "artist": "Lady Gaga",
+      "opener": "Poker Face",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 119, "inPromo": false, "isTourOpener": false,
+      "note": "God Bless America / This Land Is Your Land sung from roof as patriotic pre-show. Poker Face was the first original song after her dive onto stage."
     },
     {
-      "year": 2016, "artist": "Coldplay", "opener": "Yellow",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.55, "bpm": 86, "inPromo": false, "isTourOpener": true
+      "year": 2016, "sb": "50", "artist": "Coldplay",
+      "opener": "Yellow",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": false, "energyScore": 0.55, "bpm": 86, "inPromo": false, "isTourOpener": false,
+      "note": "Opened with Yellow (brief Colour Spectrum excerpt intro). Beyoncé and Bruno Mars appeared later. Not Fix You or Viva la Vida."
     },
     {
-      "year": 2015, "artist": "Katy Perry", "opener": "Roar",
-      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 90, "inPromo": true, "isTourOpener": true
+      "year": 2015, "sb": "XLIX", "artist": "Katy Perry",
+      "opener": "Roar",
+      "source": "Wikipedia, Sports Illustrated",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.82, "bpm": 90, "inPromo": false, "isTourOpener": false,
+      "note": "Entered on giant golden lion. From Prism (2013). Not Firework, not Dark Horse."
     },
     {
-      "year": 2014, "artist": "Bruno Mars", "opener": "Locked Out of Heaven",
-      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.88, "bpm": 144, "inPromo": false, "isTourOpener": true
+      "year": 2014, "sb": "XLVIII", "artist": "Bruno Mars",
+      "opener": "Locked Out of Heaven",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": false, "isCurrentAlbum": true, "isSolo": true, "isUpbeat": true, "energyScore": 0.88, "bpm": 144, "inPromo": false, "isTourOpener": false,
+      "note": "From Unorthodox Jukebox (2012). Children's choir sang Billionaire as intro, then drum solo, then Locked Out of Heaven."
     },
     {
-      "year": 2013, "artist": "Beyoncé", "opener": "Love on Top",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 170, "inPromo": false, "isTourOpener": true
+      "year": 2013, "sb": "XLVII", "artist": "Beyoncé",
+      "opener": "Love on Top",
+      "source": "setlist.fm, Beyoncé Wiki",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 170, "inPromo": false, "isTourOpener": false,
+      "note": "Performed a cappella as true first vocal. Run the World (Girls) instrumental played as pre-recorded intro. Not Single Ladies, not Halo."
     },
     {
-      "year": 2012, "artist": "Madonna", "opener": "Vogue",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 119, "inPromo": false, "isTourOpener": false
+      "year": 2012, "sb": "XLVI", "artist": "Madonna",
+      "opener": "Vogue",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 119, "inPromo": false, "isTourOpener": false,
+      "note": "Entered on Cleopatra-style golden throne. Not Like a Virgin, not Material Girl."
     },
     {
-      "year": 2011, "artist": "Black Eyed Peas", "opener": "I Gotta Feeling",
-      "isBiggestHit": true, "isCurrentAlbum": true, "isSolo": false, "isUpbeat": true, "energyScore": 0.88, "bpm": 128, "inPromo": false, "isTourOpener": true
+      "year": 2011, "sb": "XLV", "artist": "Black Eyed Peas",
+      "opener": "I Gotta Feeling",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": true, "isCurrentAlbum": false, "isSolo": false, "isUpbeat": true, "energyScore": 0.88, "bpm": 128, "inPromo": false, "isTourOpener": false,
+      "note": "THE ONLY CASE in 20 years where the opener was the artist's biggest hit. 14 weeks at #1. Group act (not solo)."
     },
     {
-      "year": 2010, "artist": "The Who", "opener": "Pinball Wizard",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 136, "inPromo": false, "isTourOpener": false
+      "year": 2010, "sb": "XLIV", "artist": "The Who",
+      "opener": "Pinball Wizard",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 136, "inPromo": false, "isTourOpener": false,
+      "note": "From Tommy (1969). Not Baba O'Riley, not Won't Get Fooled Again."
     },
     {
-      "year": 2009, "artist": "Bruce Springsteen", "opener": "Tenth Avenue Freeze-Out",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.75, "bpm": 125, "inPromo": false, "isTourOpener": true
+      "year": 2009, "sb": "XLIII", "artist": "Bruce Springsteen & the E Street Band",
+      "opener": "Tenth Avenue Freeze-Out",
+      "source": "setlist.fm, Rolling Stone",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.75, "bpm": 125, "inPromo": false, "isTourOpener": false,
+      "note": "From Born to Run (1975). Not Born to Run, not Dancing in the Dark."
     },
     {
-      "year": 2008, "artist": "Tom Petty", "opener": "American Girl",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 170, "inPromo": false, "isTourOpener": false
+      "year": 2008, "sb": "XLII", "artist": "Tom Petty and the Heartbreakers",
+      "opener": "American Girl",
+      "source": "setlist.fm, Yahoo Sports",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.80, "bpm": 170, "inPromo": false, "isTourOpener": false,
+      "note": "From debut album (1976). Not Free Fallin', not I Won't Back Down."
     },
     {
-      "year": 2007, "artist": "Prince", "opener": "Let's Go Crazy",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.90, "bpm": 136, "inPromo": false, "isTourOpener": false
+      "year": 2007, "sb": "XLI", "artist": "Prince",
+      "opener": "Let's Go Crazy",
+      "source": "setlist.fm, The Ringer",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.90, "bpm": 136, "inPromo": false, "isTourOpener": false,
+      "note": "Brief We Will Rock You (Queen cover) as intro, then Let's Go Crazy. Not Purple Rain (which was the closer). Not When Doves Cry."
     },
     {
-      "year": 2006, "artist": "The Rolling Stones", "opener": "Start Me Up",
-      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 120, "inPromo": false, "isTourOpener": true
+      "year": 2006, "sb": "XL", "artist": "The Rolling Stones",
+      "opener": "Start Me Up",
+      "source": "setlist.fm, Wikipedia",
+      "isBiggestHit": false, "isCurrentAlbum": false, "isSolo": true, "isUpbeat": true, "energyScore": 0.85, "bpm": 120, "inPromo": false, "isTourOpener": false,
+      "note": "Not (I Can't Get No) Satisfaction, not Paint It Black."
     }
   ],
   "baseRates": {
     "total": 20,
-    "isSolo": { "count": 18, "rate": 0.90 },
-    "isUpbeat": { "count": 19, "rate": 0.95 },
-    "isCurrentAlbum": { "count": 9, "rate": 0.45 },
-    "highEnergy": { "count": 19, "rate": 0.95, "note": "energyScore >= 0.7" },
-    "isBiggestHit": { "count": 2, "rate": 0.10 },
-    "inPromo": { "count": 3, "rate": 0.15 },
-    "isTourOpener": { "count": 9, "rate": 0.45 }
+    "isSolo": { "count": 18, "rate": 0.90, "note": "Only exceptions: The Next Episode (2022, Dre+Snoop) and I Gotta Feeling (2011, BEP group)" },
+    "isUpbeat": { "count": 19, "rate": 0.95, "note": "Only exception: Yellow (Coldplay 2016, borderline)" },
+    "isCurrentAlbum": { "count": 4, "rate": 0.20, "note": "wacced out murals (2025), Filthy (2018), Roar (2015), Locked Out of Heaven (2014)" },
+    "highEnergy": { "count": 17, "rate": 0.85, "note": "energyScore >= 0.7. Exceptions: Yellow (0.55), Starboy (0.59), Tenth Avenue (0.75 borderline)" },
+    "isBiggestHit": { "count": 1, "rate": 0.05, "note": "ONLY I Gotta Feeling (BEP 2011). Weeknd opened with Starboy, NOT Blinding Lights." },
+    "inPromo": { "count": 0, "rate": 0.00, "note": "No verified cases of opener appearing in pre-show promo trailer in this dataset" },
+    "isTourOpener": { "count": 0, "rate": 0.00, "note": "Tour opener data not reliably available for historical artists. Removed as unreliable." }
   },
   "catalogEstimates": {
     "note": "Estimated base rates across a typical artist's full catalog (~30 songs considered)",
@@ -98,8 +158,6 @@
     "isUpbeat": 0.70,
     "isCurrentAlbum": 0.11,
     "highEnergy": 0.50,
-    "isBiggestHit": 0.03,
-    "inPromo": 0.01,
-    "isTourOpener": 0.05
+    "isBiggestHit": 0.03
   }
 }
