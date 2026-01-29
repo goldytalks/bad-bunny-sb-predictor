@@ -1,5 +1,5 @@
 import historicalData from "@/data/historical-sb-openers.json";
-import { runBacktest, BacktestResult } from "@/lib/model/backtest";
+import { runBacktest } from "@/lib/model/backtest";
 import Link from "next/link";
 
 export default function BacktestPage() {
@@ -9,67 +9,100 @@ export default function BacktestPage() {
   const accuracy = ((top3Count / results.length) * 100).toFixed(0);
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-8">
-      <Link href="/" className="text-pr-blue text-sm hover:underline mb-4 inline-block">
-        &larr; Back to Dashboard
-      </Link>
-
-      <h1 className="text-3xl font-bold mb-2">Model Backtest</h1>
-      <p className="text-gray-400 text-sm mb-6">
-        Testing our Bayesian log-odds model against 20 Super Bowl halftime openers (2006-2025)
-        using synthetic catalogs for each show.
-      </p>
-
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        <div className="rounded-lg border border-gray-700 bg-gray-900/50 p-4 text-center">
-          <div className="text-3xl font-bold font-mono">{accuracy}%</div>
-          <div className="text-sm text-gray-400">Top-3 Accuracy</div>
+    <div className="max-w-[1440px] mx-auto border-l-2 border-r-2 border-black min-h-screen bg-[#EAEAEA] relative">
+      {/* Header */}
+      <header className="grid grid-cols-[1.5fr_1fr_1fr_1fr] border-b-2 border-black">
+        <Link href="/" className="text-[2.5rem] p-4 tracking-tight bg-black text-[#EAEAEA] flex items-center font-bold no-underline">
+          BB_PREDICT V.2.2
+        </Link>
+        <Link href="/research" className="border-l-2 border-black flex items-center justify-center text-xl font-bold hover:bg-[#39FF14] transition-colors no-underline text-black">
+          RESEARCH
+        </Link>
+        <div className="border-l-2 border-black flex items-center justify-center text-xl font-bold bg-[#39FF14] text-black">
+          BACKTEST
         </div>
-        <div className="rounded-lg border border-gray-700 bg-gray-900/50 p-4 text-center">
-          <div className="text-3xl font-bold font-mono">{top3Count}/{results.length}</div>
-          <div className="text-sm text-gray-400">Opener in Top 3</div>
+        <Link href="/" className="border-l-2 border-black flex items-center justify-center text-xl font-bold hover:bg-[#39FF14] transition-colors no-underline text-black">
+          DASHBOARD
+        </Link>
+      </header>
+
+      {/* Hero */}
+      <div className="p-16 border-b-2 border-black">
+        <div className="text-base flex gap-8 mb-8 font-bold opacity-60">
+          <span>[MODULE: BACKTEST]</span>
+          <span>[SAMPLES: {results.length}]</span>
         </div>
-        <div className="rounded-lg border border-gray-700 bg-gray-900/50 p-4 text-center">
-          <div className="text-3xl font-bold font-mono">{top1Count}/{results.length}</div>
-          <div className="text-sm text-gray-400">Ranked #1</div>
+        <h1 className="text-[5rem] leading-[0.85] mb-8 font-bold tracking-[-3px] text-black">
+          MODEL<br />VALIDATION_
+        </h1>
+        <p className="text-xl font-bold max-w-[70%]">
+          TESTING BAYESIAN LOG-ODDS MODEL AGAINST {results.length} SUPER BOWL HALFTIME OPENERS (2006-2025).
+          SYNTHETIC CATALOGS. NO OVERFITTING.
+        </p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-3 border-b-2 border-black">
+        <div className="p-12 border-r-2 border-black text-center bg-[#39FF14]">
+          <div className="text-[4rem] font-bold leading-none">{accuracy}%</div>
+          <div className="text-lg font-bold mt-2">TOP-3 ACCURACY</div>
+        </div>
+        <div className="p-12 border-r-2 border-black text-center">
+          <div className="text-[4rem] font-bold leading-none">{top3Count}/{results.length}</div>
+          <div className="text-lg font-bold mt-2">OPENER IN TOP 3</div>
+        </div>
+        <div className="p-12 text-center bg-black text-[#EAEAEA]">
+          <div className="text-[4rem] font-bold leading-none">{top1Count}/{results.length}</div>
+          <div className="text-lg font-bold mt-2">RANKED #1</div>
         </div>
       </div>
 
-      <div className="rounded-xl border border-gray-700 bg-gray-900/50 p-6">
-        <h2 className="text-sm text-gray-400 uppercase tracking-wider mb-4">Results by Year</h2>
+      {/* Results Table */}
+      <div className="border-b-2 border-black">
+        <div className="bg-black text-[#EAEAEA] p-6 text-xl font-bold border-b-2 border-black">
+          RESULTS_BY_YEAR // {results.length} SHOWS
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-700 text-gray-400 text-left">
-                <th className="py-3 pr-4">Year</th>
-                <th className="py-3 pr-4">Artist</th>
-                <th className="py-3 pr-4">Actual Opener</th>
-                <th className="py-3 pr-4 text-center">Rank</th>
-                <th className="py-3 pr-4 text-right">Prob</th>
-                <th className="py-3 pr-4">Top Pick</th>
-                <th className="py-3 pr-4 text-center">Top 3?</th>
+              <tr className="border-b-2 border-black text-left font-bold">
+                <th className="p-4">YEAR</th>
+                <th className="p-4">ARTIST</th>
+                <th className="p-4">ACTUAL_OPENER</th>
+                <th className="p-4 text-center">RANK</th>
+                <th className="p-4 text-right">PROB</th>
+                <th className="p-4">TOP_PICK</th>
+                <th className="p-4 text-center">TOP_3</th>
               </tr>
             </thead>
             <tbody>
               {results.map((r) => (
-                <tr key={r.year} className="border-b border-gray-800">
-                  <td className="py-3 pr-4 font-mono">{r.year}</td>
-                  <td className="py-3 pr-4">{r.artist}</td>
-                  <td className="py-3 pr-4 font-medium">{r.actualOpener}</td>
-                  <td className="py-3 pr-4 text-center font-mono">
-                    <span className={r.openerRank <= 3 ? "text-green-400" : "text-red-400"}>
+                <tr
+                  key={r.year}
+                  className={`border-b border-black/20 transition-colors ${
+                    r.inTop3 ? "hover:bg-[#39FF14]/20" : "hover:bg-red-100"
+                  }`}
+                >
+                  <td className="p-4 font-bold">{r.year}</td>
+                  <td className="p-4">{r.artist}</td>
+                  <td className="p-4 font-bold">{r.actualOpener}</td>
+                  <td className="p-4 text-center">
+                    <span className={`font-bold ${
+                      r.openerRank === 1 ? "bg-[#39FF14] px-2 py-1" :
+                      r.openerRank <= 3 ? "text-[#2ab810]" : "text-[#cc0000]"
+                    }`}>
                       #{r.openerRank}
                     </span>
                   </td>
-                  <td className="py-3 pr-4 text-right font-mono">
+                  <td className="p-4 text-right font-bold">
                     {(r.openerProbability * 100).toFixed(1)}%
                   </td>
-                  <td className="py-3 pr-4 text-gray-400">{r.topPrediction}</td>
-                  <td className="py-3 pr-4 text-center">
+                  <td className="p-4 text-[#555]">{r.topPrediction}</td>
+                  <td className="p-4 text-center font-bold">
                     {r.inTop3 ? (
-                      <span className="text-green-400">Yes</span>
+                      <span className="text-[#2ab810]">YES</span>
                     ) : (
-                      <span className="text-red-400">No</span>
+                      <span className="text-[#cc0000]">NO</span>
                     )}
                   </td>
                 </tr>
@@ -79,20 +112,31 @@ export default function BacktestPage() {
         </div>
       </div>
 
-      <div className="mt-6 rounded-xl border border-gray-700 bg-gray-900/50 p-6">
-        <h2 className="text-sm text-gray-400 uppercase tracking-wider mb-3">Methodology</h2>
-        <p className="text-sm text-gray-400">
-          For each historical show, we create a synthetic 6-song catalog: the actual opener plus
-          archetypes (biggest old hit, popular collab, slow ballad, current album deep cut, mid-tier
-          upbeat track). We then score all songs with our Bayesian model and check if the actual
-          opener ranks in the top 3. This tests whether our likelihood ratios correctly identify
-          opener-like songs from non-opener alternatives.
-        </p>
+      {/* Methodology */}
+      <div className="p-16 text-[2rem] leading-[1.1] border-b-2 border-black font-bold tracking-[-1px]">
+        &gt; FOR EACH SHOW: 6-SONG SYNTHETIC CATALOG.<br />
+        &gt; ACTUAL OPENER + 5 ARCHETYPES.<br />
+        &gt; SCORE ALL. CHECK RANK. NO CHEATING.
       </div>
 
-      <footer className="text-xs text-gray-600 mt-8">
-        <p>Bayesian log-odds model with historically-derived likelihood ratios. Not financial advice.</p>
-      </footer>
-    </main>
+      <div className="border-b-2 border-black p-8">
+        <div className="bg-black text-[#EAEAEA] p-6 text-sm font-bold">
+          METHODOLOGY // DETAIL
+        </div>
+        <div className="p-6 text-sm leading-relaxed border-2 border-black border-t-0">
+          FOR EACH HISTORICAL SHOW, WE CREATE A SYNTHETIC 6-SONG CATALOG: THE ACTUAL OPENER PLUS
+          ARCHETYPES (BIGGEST OLD HIT, POPULAR COLLAB, SLOW BALLAD, CURRENT ALBUM DEEP CUT, MID-TIER
+          UPBEAT TRACK). WE THEN SCORE ALL SONGS WITH OUR BAYESIAN MODEL AND CHECK IF THE ACTUAL
+          OPENER RANKS IN THE TOP 3. THIS TESTS WHETHER OUR LIKELIHOOD RATIOS CORRECTLY IDENTIFY
+          OPENER-LIKE SONGS FROM NON-OPENER ALTERNATIVES.
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="p-4 flex justify-between text-sm border-t-2 border-black bg-black text-[#EAEAEA]">
+        <div>TERMINAL_ID: BB_BACKTEST_001</div>
+        <div>MODEL V.2.2 // NOT FINANCIAL ADVICE</div>
+      </div>
+    </div>
   );
 }
