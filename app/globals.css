@@ -1,3 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bg: #EAEAEA;
+  --fg: #000000;
+  --dim: #555555;
+  --border: #000000;
+  --accent: #39FF14;
+  --accent-dark: #2ab810;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}

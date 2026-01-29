@@ -6,8 +6,8 @@ This is a prediction model + dashboard for betting on which song Bad Bunny will 
 ## Tech Stack
 - **Framework**: Next.js 14+ with App Router
 - **Language**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS
-- **Charts**: Recharts
+- **Styling**: Tailwind CSS + Space Mono font (brutalist terminal aesthetic)
+- **Charts**: Recharts + HTML Canvas (Kalshi live chart)
 - **Deployment**: Vercel
 - **APIs**: Kalshi, Polymarket, Spotify
 
@@ -36,10 +36,12 @@ app/
 │   │   └── polymarket/route.ts
 │   └── spotify/route.ts     # Spotify data
 └── components/
-    ├── PredictionTable.tsx  # Main prediction display
-    ├── EdgeChart.tsx        # Edge visualization
-    ├── MarketComparison.tsx # Our prices vs market
-    └── SongCard.tsx         # Individual song display
+    ├── PredictionTable.tsx  # Full prediction table
+    ├── EdgeChart.tsx        # Edge bar chart (Recharts)
+    ├── EdgeCard.tsx         # Buy/avoid signal cards
+    ├── ModelReasoning.tsx   # Detailed model explanation
+    ├── KalshiChart.tsx      # Animated canvas with Kalshi live prices
+    └── BarFill.tsx          # Animated probability bar
 
 lib/
 ├── model/
@@ -167,24 +169,32 @@ SPOTIFY_CLIENT_SECRET=xxx    # Spotify app secret
 
 ## UI Design Guidelines
 
+### Design System: Brutalist Terminal Aesthetic
+Inspired by the "NOMINAL V.1984" terminal design. Uses Space Mono monospace font, all-uppercase text, heavy black borders, and a green (#39FF14) accent color.
+
 ### Color Scheme
-- **Primary**: Puerto Rican flag inspired (red, white, blue)
-- **Accent**: Gold/yellow for "edge" highlights
-- **Background**: Dark mode default (#0a0a0a)
-- **Text**: White/gray scale
+- **Background**: Light gray (#EAEAEA)
+- **Foreground/Borders**: Black (#000000)
+- **Accent**: Neon green (#39FF14) - used for ticker tape, buy signals, hover states
+- **Dim text**: #555555
 
-### Key UI Components
-1. **Hero Section**: Top prediction with edge indicator
-2. **Edge Plays**: Cards showing best value bets
-3. **Full Table**: All songs with our price vs market
-4. **Reasoning Panel**: Why our model disagrees with market
+### Page Layout (matches NOMINAL template)
+1. **Ticker Tape**: Scrolling green bar with song predictions + edges
+2. **Header**: `BB_PREDICT V.2.2` logo (black bg) + nav links (Research, Backtest, MKT_DATA)
+3. **Hero Grid (65/35)**: Large "FIRST SONG ENGINE_" title + top prediction on left; Kalshi live canvas chart on right
+4. **Data Table**: Top 6 songs with animated probability bars, market price, edge (green bg = buy, black bg = avoid)
+5. **Manifesto**: Model thesis in large bold text
+6. **4-Column Sentiment Indicators**: Top buy/avoid signals with colored backgrounds
+7. **Full Prediction Table**: All songs with model/Kalshi/Poly/edge/signal columns
+8. **CTA Section**: Links to Research and Backtest with brutalist button style (8px box-shadow)
+9. **Footer**: Terminal ID + model version (black bg)
 
-### Edge Indicators
-- 🔥 **Strong Buy**: Edge > +5%
-- 📈 **Buy**: Edge +2% to +5%
-- ➖ **Neutral**: Edge -2% to +2%
-- ⚠️ **Avoid**: Edge -2% to -5%
-- 🚫 **Strong Avoid**: Edge < -5%
+### Edge Indicators (text-based, no emoji)
+- **BUY++**: Edge > +5%
+- **BUY**: Edge +2% to +5%
+- **NEUT**: Edge -2% to +2%
+- **AVOID**: Edge -2% to -5%
+- **AVOID++**: Edge < -5%
 
 ## Common Tasks
 
